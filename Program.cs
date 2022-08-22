@@ -1,20 +1,24 @@
 ﻿using System;
 class ContactListClass
 {
-    public static System.Collections.ArrayList contactList = new() ;
+    //public static System.Collections.ArrayList contactList = new() ; //WTF
+
+
     public class Contact
     {
-        public string firstName = String.Empty;
-        public string lastName = String.Empty;
-        public string phoneNumnber  = String.Empty;
+        public string FirstName { get; }
+        public string LastName { get; }
+        public string PhoneNumnber { get; }
 
         public Contact (string first, string last, string phone)
         {
-            firstName = first ;
-            lastName = last ;
-            phoneNumnber = phone ;
+            FirstName = first ;
+            LastName = last ;
+            PhoneNumnber = phone ;
         }
     };
+
+    //Contact[]? contactList; //WTF2
 
     static void Main()
     {
@@ -65,13 +69,13 @@ class ContactListClass
 
         Contact thisContact = new Contact(firstName, lastName, phone);
         contactList.Add(thisContact);
-        Console.WriteLine(thisContact.firstName + thisContact.lastName + thisContact.phoneNumnber);
+        Console.WriteLine(thisContact.GetType());
     }
 
     public static void ListContacts()
     {
         Console.WriteLine();
-        Console.WriteLine(contactList.Count);
+        Console.WriteLine(contactList.GetType());
         foreach(var person in contactList)
         {
             Console.WriteLine(person);  //how do I access the contact?
