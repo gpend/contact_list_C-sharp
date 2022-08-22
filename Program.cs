@@ -4,9 +4,16 @@ class ContactListClass
     public static System.Collections.ArrayList contactList = new() ;
     public class Contact
     {
-        public string FirstName = String.Empty;
-        public string LastName { get; set; }
-        public string PhoneNumnber { get; set; }
+        public string firstName = String.Empty;
+        public string lastName = String.Empty;
+        public string phoneNumnber  = String.Empty;
+
+        public Contact (string first, string last, string phone)
+        {
+            firstName = first ;
+            lastName = last ;
+            phoneNumnber = phone ;
+        }
     };
 
     static void Main()
@@ -18,23 +25,22 @@ class ContactListClass
 2) Remove a contact
 3) List the contacts
 4) Exit");
-            int key = Console.ReadKey(false).KeyChar; //quit printing the number
-            Console.WriteLine(key);
+            var key = Console.ReadLine(); //quit printing the number
             switch (key)
             {
-                case 49:
+                case "1":
                     AddContact();
                     break;
 
-                /*case 50:
+                /*case "2":
                     RemoveContact();
                     break;*/
 
-                case 51:
+                case "3":
                     ListContacts();
                     break; 
 
-                case 52:
+                case "4":
                     Environment.Exit(0);
                     break;
 
@@ -49,21 +55,26 @@ class ContactListClass
 
     public static void AddContact()
     {
-        Contact thisContact = new();
-        Console.WriteLine("Enter the contacts first name");
-        thisContact.FirstName = Console.ReadLine();
-        Console.WriteLine("Enter the contacts last name");
-        thisContact.LastName = Console.ReadLine();
-        Console.WriteLine("Enter the contacts phone number");
-        thisContact.PhoneNumnber = (string)Console.ReadLine();
+        
+        Console.WriteLine("Enter the contact's first name");
+        string firstName = Console.ReadLine();
+        Console.WriteLine("Enter the contact's last name");
+        string lastName = Console.ReadLine();
+        Console.WriteLine("Enter the contact's phone number");
+        string phone = (string)Console.ReadLine();
+
+        Contact thisContact = new Contact(firstName, lastName, phone);
         contactList.Add(thisContact);
+        Console.WriteLine(thisContact.firstName + thisContact.lastName + thisContact.phoneNumnber);
     }
 
     public static void ListContacts()
     {
-        foreach(var contact in contactList)
+        Console.WriteLine();
+        Console.WriteLine(contactList.Count);
+        foreach(var person in contactList)
         {
-            Console.WriteLine(contact);  //how do I access the contact?
+            Console.WriteLine(person);  //how do I access the contact?
         }
     }
 }
