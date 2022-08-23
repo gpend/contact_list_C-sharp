@@ -1,19 +1,29 @@
-﻿using System;
-class ContactListClass
+﻿class ContactListClass
 {
     public static List<Contact> contactList = new();  //works here
 
     public class Contact
     {
-        public string FirstName { get; }
-        public string LastName { get; }
-        public string PhoneNumnber { get; }
+        private string firstName;
+        private string lastName;
+        private string phoneNumber;
+        public string FirstName { get { return firstName; } set { firstName = value; } }
+        public string LastName { get { return lastName; } set { lastName = value; } }
+        public string PhoneNumber { get { return phoneNumber; } set { phoneNumber = value; } }
+        public string Email { get; set; }
 
-        public Contact (string first, string last, string phone)
+        public Contact(string first, string last, string phone, string email = "")
         {
-            FirstName = first ;
-            LastName = last ;
-            PhoneNumnber = phone ;
+            FirstName = first;
+            LastName = last;
+            PhoneNumber = phone;
+            Email = email;
+        }
+
+        public string OutputListItem()
+        {
+            return ($"{this.FirstName} {this.lastName} - {this.PhoneNumber}"
+            );
         }
     };
 
@@ -21,14 +31,15 @@ class ContactListClass
 
     static void Main()
     {
-          
-        while (true){
+
+        while (true)
+        {
             Console.WriteLine(@"Select an option
 1) Add a contact
 2) Remove a contact
 3) List the contacts
 4) Exit");
-            var key = Console.ReadLine(); //quit printing the number
+            var key = Console.ReadLine();
             switch (key)
             {
                 case "1":
@@ -41,7 +52,7 @@ class ContactListClass
 
                 case "3":
                     ListContacts();
-                    break; 
+                    break;
 
                 case "4":
                     Environment.Exit(0);
@@ -52,13 +63,18 @@ class ContactListClass
                     break;
             }
         }
-        
+
 
     }
 
+    /*********
+     * list items
+     * *******/
+
+
     public static void AddContact()
     {
-        
+
         Console.WriteLine("Enter the contact's first name");
         string firstName = Console.ReadLine();
         Console.WriteLine("Enter the contact's last name");
@@ -68,16 +84,49 @@ class ContactListClass
 
         Contact thisContact = new(firstName, lastName, phone);
         contactList.Add(thisContact);
-        Console.WriteLine(thisContact);
     }
+
+
+    
 
     public static void ListContacts()
     {
         Console.WriteLine();
-        Console.WriteLine(contactList.GetType());
-        foreach(var person in contactList)
+        Console.WriteLine();
+
+        foreach (var person in contactList)
         {
-            Console.WriteLine(person.FirstName);
+            Console.WriteLine(person.OutputListItem());
+        }
+
+        Console.WriteLine();
+    }
+    
+    /**********
+     * support methods
+     *********/
+
+    public static string GetUserText(string infoType)
+    {
+        //gets text from the user and validates
+        //valid types are: phone
+        var input = Console.ReadLine();
+        if (input != null)
+        {
+            switch (infoType)
+            {
+                case "phone":
+                    if (input.Count() != (7 ^ 10))
+                    {
+                        return input;
+                    }
+                    else { return "invalid number"; }
+                default: return "N/A";
+            }
+        }
+        else
+        {
+            return "";
         }
     }
 }
