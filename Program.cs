@@ -1,8 +1,7 @@
 ﻿using System;
 class ContactListClass
 {
-    //public static System.Collections.ArrayList contactList = new() ; //WTF
-
+    public static List<Contact> contactList = new();  //works here
 
     public class Contact
     {
@@ -18,11 +17,11 @@ class ContactListClass
         }
     };
 
-    //Contact[]? contactList; //WTF2
+    //public static List<Contact> contactList = new(); //not here
 
     static void Main()
     {
-        
+          
         while (true){
             Console.WriteLine(@"Select an option
 1) Add a contact
@@ -67,9 +66,9 @@ class ContactListClass
         Console.WriteLine("Enter the contact's phone number");
         string phone = (string)Console.ReadLine();
 
-        Contact thisContact = new Contact(firstName, lastName, phone);
+        Contact thisContact = new(firstName, lastName, phone);
         contactList.Add(thisContact);
-        Console.WriteLine(thisContact.GetType());
+        Console.WriteLine(thisContact);
     }
 
     public static void ListContacts()
@@ -78,7 +77,7 @@ class ContactListClass
         Console.WriteLine(contactList.GetType());
         foreach(var person in contactList)
         {
-            Console.WriteLine(person);  //how do I access the contact?
+            Console.WriteLine(person.FirstName);
         }
     }
 }
