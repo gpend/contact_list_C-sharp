@@ -1,15 +1,15 @@
-﻿class ContactListClass
+﻿using static ContactListClassHelpers;
+
+class ContactListClass
 {
     public static List<Contact> contactList = new();  //works here
 
     public class Contact
     {
-        private string firstName;
-        private string lastName;
-        private string phoneNumber;
-        public string FirstName { get { return firstName; } set { firstName = value; } }
-        public string LastName { get { return lastName; } set { lastName = value; } }
-        public string PhoneNumber { get { return phoneNumber; } set { phoneNumber = value; } }
+        private string? firstName;
+        public string? FirstName { get { return firstName; } set { firstName = value; } }
+        public string LastName { get; set; }
+        public string PhoneNumber { get; set; }
         public string Email { get; set; }
 
         public Contact(string first, string last, string phone, string email = "")
@@ -22,7 +22,7 @@
 
         public string OutputListItem()
         {
-            return ($"{this.FirstName} {this.lastName} - {this.PhoneNumber}"
+            return ($"{this.FirstName} {this.LastName}\t - \t{this.PhoneNumber}"
             );
         }
     };
@@ -31,14 +31,19 @@
 
     static void Main()
     {
+        contactList.Add(new Contact("james", "smith", "123-9874"));
+        contactList.Add(new Contact("judy", "smith", "125-5574"));
+        contactList.Add(new Contact("dave", "smith", "555-5534"));
 
         while (true)
         {
-            Console.WriteLine(@"Select an option
-1) Add a contact
-2) Remove a contact
-3) List the contacts
-4) Exit");
+            Console.WriteLine("****************\n" +
+                "Select an option\n" +
+                "****************\n\n" +
+                "1) Add a contact\n" +
+                "2) Remove a contact\n" +
+                "3) List the contacts\n" +
+                "4) Exit\n");
             var key = Console.ReadLine();
             switch (key)
             {
@@ -46,9 +51,9 @@
                     AddContact();
                     break;
 
-                /*case "2":
+                case "2":
                     RemoveContact();
-                    break;*/
+                    break;
 
                 case "3":
                     ListContacts();
@@ -68,7 +73,7 @@
     }
 
     /*********
-     * list items
+     * Main Methods
      * *******/
 
 
@@ -76,18 +81,40 @@
     {
 
         Console.WriteLine("Enter the contact's first name");
-        string firstName = Console.ReadLine();
+        string firstName = GetUserText("name");
         Console.WriteLine("Enter the contact's last name");
-        string lastName = Console.ReadLine();
+        string lastName = GetUserText("name");
         Console.WriteLine("Enter the contact's phone number");
-        string phone = (string)Console.ReadLine();
+        string phone = GetUserText("phone");
 
         Contact thisContact = new(firstName, lastName, phone);
         contactList.Add(thisContact);
     }
 
 
-    
+    public static void RemoveContact()
+    {
+        Console.WriteLine("enter the phone number of the person to remove");
+        string? enteredNumber = Console.ReadLine();
+        if (enteredNumber != null)
+        {
+
+            var contactToRemove = contactList?.Find(x => x.PhoneNumber == enteredNumber);
+            if (contactToRemove != null)
+            {
+                if (contactList!.Remove(contactToRemove))
+                {
+                    Console.WriteLine("Contact Removed");
+                }
+                else
+                {
+                    Console.WriteLine("Contact not found, please verify your number");
+                }
+            }
+
+        }
+    }
+
 
     public static void ListContacts()
     {
@@ -100,34 +127,6 @@
         }
 
         Console.WriteLine();
-    }
-    
-    /**********
-     * support methods
-     *********/
-
-    public static string GetUserText(string infoType)
-    {
-        //gets text from the user and validates
-        //valid types are: phone
-        var input = Console.ReadLine();
-        if (input != null)
-        {
-            switch (infoType)
-            {
-                case "phone":
-                    if (input.Count() != (7 ^ 10))
-                    {
-                        return input;
-                    }
-                    else { return "invalid number"; }
-                default: return "N/A";
-            }
-        }
-        else
-        {
-            return "";
-        }
     }
 }
 
